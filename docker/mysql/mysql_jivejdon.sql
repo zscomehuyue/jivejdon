@@ -1,0 +1,1 @@
+../../ddl/mysql_jivejdon.sql

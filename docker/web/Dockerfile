@@ -2,20 +2,23 @@
 FROM tomcat:8.5-jre8-alpine
 
 # add JNDI config 
-ADD tomcat/context.xml /usr/local/tomcat/conf/
+ADD tomcat/conf/context.xml /usr/local/tomcat/conf/
 
 #add jass lib and config
-ADD tomcat/server.xml /usr/local/tomcat/conf/
-ADD tomcat/jaas.config /usr/local/tomcat/conf/
-ADD tomcat/jaas.jar /usr/local/tomcat/lib/
+ADD tomcat/conf/server.xml /usr/local/tomcat/conf/
+ADD tomcat/conf/jaas.config /usr/local/tomcat/conf/
+ADD tomcat/lib/jaas.jar /usr/local/tomcat/lib/
 
 #add javamail and activation.jar
-ADD tomcat/email.jar      /usr/local/tomcat/lib/
+ADD tomcat/lib/email.jar      /usr/local/tomcat/lib/
 
 # # add MySQL JDBC driver jar
-ADD tomcat/mysql-connector-java-5.1.36-bin.jar /usr/local/tomcat/lib/
+ADD tomcat/lib/mysql-connector-java-5.0.8-bin.jar /usr/local/tomcat/lib/
+
 RUN rm -rf /usr/local/tomcat/webapps/
+
 ADD target/ROOT.war /usr/local/tomcat/webapps/
+
 # # create mount point for volume with application
 WORKDIR /usr/local/tomcat/webapps/
 

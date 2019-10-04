@@ -7,7 +7,8 @@ sudo docker build -t jive:mysql .
 
 ## run msyql 并进入os    ubuntu
 
-*  docker run -ti  --name jive1.0   jive:mysql bash 
+*  docker run -ti  --name jm3.0 -p 3306:3306  jive3.0 bash 
+*  docker run -ti  --name jt1.0   jive:tomcat8 bash 
 
 
 ## docker 操作
@@ -19,6 +20,22 @@ sudo docker commit -m "My network exercise" Exercise net:v1.0
 
 * 进入docker
 docker exec -ti id/name bash
+
+
+## mysql 
+
+mysql -utest -p 
+
+grant all privileges on *.* to 'test'@'%' identified by 'test' with grant option ; 
+flush privileges ; 
+
+
+
+## 访问docker mysql服务
+
+### docker-machine ip来访问
+ 
+docker-machine create default
 
 
 ### 安装软件

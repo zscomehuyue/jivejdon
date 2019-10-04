@@ -1,55 +1,43 @@
+
+FROM centos/s2i-core-centos7
+#FROM tomcat:8.5-jre8-alpine
+
+RUN yum install -y yum-utils && \
+    yum -y clean all --enablerepo='*'
+
+
+# add JNDI config 
+#ADD tomcat/conf/context.xml /usr/local/tomcat/conf/
 #
-# Build the app using maven in a container
+##add jass lib and config
+#ADD tomcat/conf/server.xml /usr/local/tomcat/conf/
+#ADD tomcat/conf/jaas.config /usr/local/tomcat/conf/
+#ADD tomcat/lib/jaas.jar /usr/local/tomcat/lib/
 #
-# FROM maven:3-jdk-8-alpine AS devenv
-# RUN git clone https://github.com/banq/jivejdon.git
-# # Create app directory
-# WORKDIR /jivejdon
-# RUN mvn package
-
-# #
-# #mysql
-# #
-FROM mysql:5.7 
-
-# Copy the database initialize script: 
-# Contents of /docker-entrypoint-initdb.d are run on mysqld startup
-ADD  mysql/ /docker-entrypoint-initdb.d/
-
-# Default values for passwords and database name. Can be overridden on docker run
-ENV MYSQL_ROOT_PASSWORD=root 
-ENV MYSQL_DATABASE=jivejdon
-ENV MYSQL_USER=test
-ENV MYSQL_PASSWORD=test
-
-RUN /etc/init.d/mysql start &
-
-# #
-# # deploy application to tomcat
-
-# FROM tomcat:8.5-jre8-alpine
-
-# ADD docker/tomcat/context.xml /usr/local/tomcat/conf/
-# ADD docker/tomcat/server.xml /usr/local/tomcat/conf/
-
-
-# # # add MySQL JDBC driver jar
-# ADD docker/tomcat/mysql-connector-java-5.1.36-bin.jar /usr/local/tomcat/lib/
-# ADD target/ROOT.war /usr/local/tomcat/webapps/
-# # # create mount point for volume with application
-# WORKDIR /usr/local/tomcat/webapps/
-
-
-# # # add tomcat jpda debugging environmental variables
-# ENV JPDA_OPTS="-agentlib:jdwp=transport=dt_socket,address=8000,server=y,suspend=n"
-# ENV JPDA_ADDRESS="8000"
-# ENV JPDA_TRANSPORT="dt_socket"
-
-# # # start tomcat with remote debugging
-#  EXPOSE 8080
-
-#  WORKDIR /usr/local/tomcat/bin
-#  RUN ls -l
-#  RUN JAVA_OPTS="-XX:+UseStringCache   -Djava.security.auth.login.config=../conf/jaas.config"
-#  RUN catalina.sh jpda run &
+##add javamail and activation.jar
+#ADD tomcat/lib/email.jar      /usr/local/tomcat/lib/
+#
+## # add MySQL JDBC driver jar
+#ADD tomcat/lib/mysql-connector-java-5.0.8-bin.jar /usr/local/tomcat/lib/
+#
+#RUN rm -rf /usr/local/tomcat/webapps/
+#
+#ADD target/ROOT.war /usr/local/tomcat/webapps/
+#
+## # create mount point for volume with application
+#WORKDIR /usr/local/tomcat/webapps/
+#
+#
+## # add tomcat jpda debugging environmental variables
+#ENV JPDA_OPTS="-agentlib:jdwp=transport=dt_socket,address=8000,server=y,suspend=n"
+#ENV JPDA_ADDRESS="8000"
+#ENV JPDA_TRANSPORT="dt_socket"
+#
+## # start tomcat with remote debugging
+# EXPOSE 8080 8000
+#
+# WORKDIR /usr/local/tomcat/bin
+# RUN ls -l
+# RUN JAVA_OPTS="-XX:+UseStringCache   -Djava.security.auth.login.config=../conf/jaas.config"
+# CMD ["catalina.sh", "jpda", "run"]
 

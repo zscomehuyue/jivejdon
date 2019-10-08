@@ -2,7 +2,7 @@
 
 * 创建images 
 
-sudo docker build -t jive:mysql . 
+sudo docker build -t jive:mysql -f Dockerfile.web . 
 > * 并在当前的目录,并copy mysql/sql文件执行初始化；
 
 ## run msyql 并进入os    ubuntu
